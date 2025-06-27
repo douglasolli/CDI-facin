@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <title>CDI Fácil</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="manifest" href="manifest.json">
+  <style>
+    body { font-family: Arial, sans-serif; max-width: 400px; margin: auto; padding: 20px; }
+    input, button { width: 100%; padding: 10px; margin: 5px 0; font-size: 1em; }
+    button { background: #007aff; color: white; border: none; border-radius: 5px; }
+    h2 { color: #007aff; text-align: center; }
+  </style>
+</head>
+<body>
+  <h2>CDI Fácil</h2>
+  <input type="number" id="valor" step="0.01" placeholder="Valor investido (R$)">
+  <input type="number" id="dias" placeholder="Prazo (dias)">
+  <input type="number" id="cdi" step="0.01" placeholder="Taxa CDI ao ano (%)" value="10.65">
+  <input type="number" id="porcentagem" placeholder="% do CDI" value="100">
+  <button onclick="calcular()">Calcular</button>
+  <h3 id="resultado"></h3>
+
+  <script>
+    function calcular() {
+      const v = parseFloat(document.getElementById('valor').value)||0;
+      const dias = parseInt(document.getElementById('dias').value)||0;
+      const cdi = parseFloat(document.getElementById('cdi').value)||0;
+      const pct = parseFloat(document.getElementById('porcentagem').value)||100;
+      const cdiDia = Math.pow(1 + cdi/100, 1/252) - 1;
+      const taxaEf = Math.pow(1 + cdiDia, dias) - 1;
+      const final = v * (1 + taxaEf * pct/100);
+      document.getElementById('resultado').textContent =
+        `Valor final: R$ ${final.toFixed(2)}`;
+    }
+  </script>
+</body>
+</html>
